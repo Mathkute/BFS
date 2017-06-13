@@ -2,10 +2,6 @@
  *
  */
 
-/* TODO:
- *      - it needs to use generics: should it be Node<Comparable<T>>? 
- *      - compareTo() needs to delegate to the compareTo() of h,f,g
- */
 package bfs;
 
 import java.util.Iterator;
@@ -14,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+public abstract class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+
+    public abstract T computeF(Double g, T h); /* computeF() */
+    public abstract Node<T> newNode(State<T> st);
 
     Node<T> parent;
     State<T> s;
@@ -30,15 +29,15 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         this.mn = new HashMap<>(); 
         this.h  = s1.heuristic();
         this.g  = 0.0;
-        computeF();
+        this.f  = computeF(this.g, this.h);
         this.mn.put(this.s, this);
     } /* constructor */
 
-    private Node<T> newNode(State<T> s1) {
-        Node<T> n = new Node<T>(s1);
+    private Node<T> getNewNode(State<T> s1) {
+        Node<T> n = newNode(s1);
         n.h = s1.heuristic();
         n.g = this.g + 1.0;
-        n.computeF();
+        n.f = n.computeF(n.g, n.h);
         n.mn = this.mn;
         n.parent = this;
         return n;
@@ -49,7 +48,7 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         Iterator<State<T>> iss = this.s.generateSuccessors().iterator();
         while(iss.hasNext()) { 
             State<T> s = iss.next(); 
-            Node<T> n = this.newNode(s);
+            Node<T> n = this.getNewNode(s);
             if(mn.get(s) == null) { mn.put(n.s, n); ln.add(n);}
             if(n.f.compareTo(mn.get(n.s).f) <0 ) ln.add(n); 
         }
@@ -67,7 +66,6 @@ public class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
         /* (this.f < n.f? -1:(this.f > n.f? 1: 0)); */
     } /* compareTo() */
 
-    Comparable<T> computeF(){ System.err.println("Node: computeF(): Dummy method."); return null;} /* computeF() */
 } /* class Node */
 
 /*
