@@ -4,12 +4,12 @@
 
 package bfs;
 
-import java.util.List;
+import java.util.Collection;
 
-public interface State {
+public interface State<T extends Comparable<T>> {
     public boolean isGoal();
-    public List<State> generateSuccessors();
-    public double heuristic();
+    public Collection<State<T>> generateSuccessors(); 
+    public T heuristic();
 }
 
 /*

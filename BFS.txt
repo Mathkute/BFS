@@ -2,6 +2,9 @@
  *
  */
 
+London - Tuesday (12 June 2017)
+{Kind of implemented a generics version of the design: still to test that it works.}
+
 London - Sunday (11 June 2017)
 {BFS: breadth first search: three classes, BFS, Node, State, for a general design: the purpose is to have a general package to use and to hide the logic in the State implementation.}
 {I created the git repository to have a way to [revert] to the previous version. The second version needs to use generics to allow more complex decisions when comparing states. This entails to have to learn how to manage projects with git, and to create a package, that is the jar file to use.}
