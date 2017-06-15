@@ -13,7 +13,7 @@ import java.util.Queue;
 import java.util.PriorityQueue;
 
 public class BFS {
-    public interface Node {
+    public interface Node extends Comparable<Node> {
         boolean isGoal();
         Collection<Node> generateSuccessors();
     }
